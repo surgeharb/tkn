@@ -1,6 +1,9 @@
 # syntax = docker/dockerfile:experimental
 FROM ubuntu:18.04
 
+ARG TEKTON_VERSION
+ENV TEKTON_VERSION=${TEKTON_VERSION:-0.6.0}
+
 RUN apt-get update && \
     apt-get install -y \
         curl \
@@ -19,7 +22,7 @@ RUN --mount=type=cache,target=/var/cache/apt/archives \
 RUN groupadd -g 1000 tekton && \
     useradd -u 1000 -g tekton -d /home/tekton -m -k /etc/skel -s /bin/bash tekton
 
-RUN curl -L https://github.com/tektoncd/cli/releases/download/v0.4.0/tkn_0.4.0_Linux_x86_64.tar.gz | tar xvz -C /usr/local/bin
+RUN curl -L https://github.com/tektoncd/cli/releases/download/v${TEKTON_VERSION}/tkn_${TEKTON_VERSION}_Linux_x86_64.tar.gz | tar xvz -C /usr/local/bin
 
 RUN echo "source $(tkn completion bash) > /home/tekton/.bashrc"
 
