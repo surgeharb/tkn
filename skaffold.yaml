@@ -1,0 +1,17 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+metadata:
+  name: tkn
+build:
+  artifacts:
+  - image: tkn
+    docker:
+      network: host
+      cacheFrom:
+      - 'ubuntu:18.04'
+      noCache: true
+  local:
+    push: false
+    useBuildkit: true
+  tagPolicy:
+    gitCommit: {}
