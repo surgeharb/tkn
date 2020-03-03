@@ -1,0 +1,33 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: hadolint
+spec:
+  inputs:
+    resources:
+    - name: source
+      type: git
+    - name: pr
+      type: pullRequest
+  outputs:
+    resources:
+    - name: pr
+      type: pullRequest
+  steps:
+  - name: debug
+    image: ubuntu:18.04
+    command: ["/bin/bash"]
+    args:
+    - -c
+    - |
+        ls -alF
+        find /workspace
+    workingDir: "/workspace/source"
+  - name: hadolint
+    image: hadolint/hadolint
+    command: ["/bin/ash"]
+    args:
+    - -c
+    - |
+        cp -R /workspace/pr/ /workspace/output/
+        hadolint /workspace/source/Dockerfile > /workspace/output/pr/comments/new
