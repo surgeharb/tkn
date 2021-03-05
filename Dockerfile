@@ -9,8 +9,8 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # hadolint ignore=DL3009,SC2215
 RUN --mount=type=cache,target=/var/cache/apt/archives apt-get update && \
     apt-get install -y --no-install-recommends \
-        curl=7.58.0-2ubuntu3.8 \
-        gnupg2=2.2.4-1ubuntu1.2 \
+        curl \
+        gnupg2 \
         ca-certificates=20180409
 
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" |tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
